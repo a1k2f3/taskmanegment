@@ -1,5 +1,5 @@
 import { CheckCircle2, Plus } from "lucide-react"
-import { Button } from "@/components/ui/button"
+
 
 export default function EmptyState({ hasFilters, searchQuery, customMessage }) {
   return (
@@ -13,12 +13,7 @@ export default function EmptyState({ hasFilters, searchQuery, customMessage }) {
           ? "Try adjusting your filters or search query"
           : customMessage || "Create a new task to get started"}
       </p>
-      {!hasFilters && !customMessage && (
-        <Button className="mt-4">
-          <Plus className="mr-2 h-4 w-4" />
-          New Task
-        </Button>
-      )}
+      
     </div>
   )
 }

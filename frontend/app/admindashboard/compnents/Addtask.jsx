@@ -13,9 +13,9 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { format } from "date-fns"
 import { cn } from "@/lib/utils"
-
-
-export default function AddTaskForm() {
+export default function AddTaskForm({
+         onClose 
+}) {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
@@ -204,7 +204,7 @@ export default function AddTaskForm() {
         </CardContent>
 
         <CardFooter className="flex justify-between">
-          <Button variant="outline" type="button" onClick={() => router.back()}>
+          <Button variant="outline" type="button" onClick={() => console.log("hello")}>
             Cancel
           </Button>
           <Button type="submit" disabled={isSubmitting || isSuccess}>
@@ -224,7 +224,7 @@ export default function AddTaskForm() {
           </Button>
         </CardFooter>
       </form>
+      <Button onClick={onClose} className="mt-4 w-30">Close</Button>
     </Card>
   )
 }
-
