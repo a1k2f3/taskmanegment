@@ -23,33 +23,15 @@ export default function SignupForm() {
 
   const handleSubmit = async(e) => {
     e.preventDefault();
-    const formData = new FormData()
-    formData.append("title", title)
-    formData.append("detail", description)
-    formData.append("priority", priority)
-    formData.append("date", date ? format(date, "yyyy-MM-dd") : "")
-    formData.append("user", id)
-    files.forEach((file, index) => {
-      formData.append(`file-${index}`, file)
-    })
+   
     try {
-      const response = await fetch("http://localhost:3001/tasks", {
+      const response = await fetch("http://localhost:3001/users", {
         method: "POST",
         body: formData,
       })
-
       if (response.ok) {
         alert("Task assigned successfully")
-        setTitle("")
-        setDescription("")
-        setPriority("")
-        setDate(null)
-        setId("")
-        setFiles([])
-        setIsSuccess(true)
-        setTimeout(() => {
-          setIsSuccess(false)
-        }, 2000)
+        
       } else {
         const data = await response.json()
         alert(`Error: ${data.message || "Task assignment failed"}`)
@@ -59,10 +41,8 @@ export default function SignupForm() {
     } finally {
       setIsSubmitting(false)
     }
-
     console.log(formData);
   };
-
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <Card className="w-full max-w-md p-6 shadow-lg rounded-lg bg-white">
