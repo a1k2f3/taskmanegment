@@ -78,14 +78,32 @@ export default function AddTaskForm({
     event.preventDefault()
     setIsSubmitting(true)
 
+  //   title: string;
 
+  //   @Prop({ required: true })
+  //   detail: string;
+  //   @Prop()
+  //   file: string;
+  //   @Prop()
+  //   submissionfile: string;
+  //   @Prop()
+  //   priority: string;
+  //   @Prop()
+  //   status: string;
+  //   @Prop({ required: true })
+  //   date: Date;
+    
+  // @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'Signups' } })
+  // This ensures the field is not confused with a populated reference
+  user: Signup;
+  
     // Get form data
     const formData = new FormData()
     formData.append("title", title);
-    formData.append("description", description);
+    formData.append("detail", description);
     formData.append("priority", priority);
-    formData.append("dueDate", date);
-    formData.append("dueDate", date);
+    formData.append("date", date);
+    formData.append("user", id);
     console.log(formData)
     // Add files to form data
     files.forEach((file, index) => {
