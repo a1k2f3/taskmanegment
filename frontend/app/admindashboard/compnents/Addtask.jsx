@@ -20,6 +20,9 @@ export default function AddTaskForm({
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [date, setDate] = useState()
+  const [title, settitle] = useState()
+  const [description, setdescription] = useState()
+  const [priority, setpriority] = useState()
   const [files, setFiles] = useState([])
   const [isDragging, setIsDragging] = useState(false)
   const fileInputRef = useRef(null)
@@ -66,9 +69,15 @@ export default function AddTaskForm({
     event.preventDefault()
     setIsSubmitting(true)
 
-    // Get form data
-    const formData = new FormData(event.currentTarget)
 
+    // Get form data
+    const formData = new FormData()
+    try{
+      const response=fetch("http://localhost:3001/tasks")
+      }catch(error){
+      console.log(error)
+      }
+console.log(formData)
     // Add files to form data
     files.forEach((file, index) => {
       formData.append(`file-${index}`, file)
