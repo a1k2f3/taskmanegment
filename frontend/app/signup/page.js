@@ -7,39 +7,31 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function SignupForm() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    role: "",
-    age: "",
-    education: "",
-  });
-
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [role, setRole] = useState("");
+  const [age, setAge] = useState("");
+  const [education, setEducation] = useState("");
   const [image, setImage] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
-  };
+  const handleImageChange = (e) => setImage(e.target.files[0]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     const formDataToSend = new FormData();
-    Object.keys(formData).forEach((key) => {
-      formDataToSend.append(key, formData[key]);
-    });
-
-    if (image) {
-      formDataToSend.append("image", image);
-    }
+    formDataToSend.append("name", name);
+    formDataToSend.append("email", email);
+    formDataToSend.append("password", password);
+    formDataToSend.append("confirmPassword", confirmPassword);
+    formDataToSend.append("role", role);
+    formDataToSend.append("age", age);
+    formDataToSend.append("education", education);
+    if (image) formDataToSend.append("image", image);
 
     try {
       const response = await fetch("http://localhost:3001/users", {
@@ -70,23 +62,23 @@ export default function SignupForm() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <Label>Name</Label>
-              <Input name="name" value={formData.name} onChange={handleChange} required />
+              <Input name="name" value={name} onChange={(e) => setName(e.target.value)} required />
             </div>
             <div>
               <Label>Email</Label>
-              <Input type="email" name="email" value={formData.email} onChange={handleChange} required />
+              <Input type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
             </div>
             <div>
               <Label>Password</Label>
-              <Input type="password" name="password" value={formData.password} onChange={handleChange} required />
+              <Input type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
             </div>
             <div>
               <Label>Confirm Password</Label>
-              <Input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} required />
+              <Input type="password" name="confirmPassword" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
             </div>
             <div>
               <Label>Role</Label>
-              <Select onValueChange={(value) => setFormData({ ...formData, role: value })}>
+              <Select onValueChange={setRole}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select role" />
                 </SelectTrigger>
@@ -99,11 +91,11 @@ export default function SignupForm() {
             </div>
             <div>
               <Label>Age</Label>
-              <Input type="number" name="age" value={formData.age} onChange={handleChange} required />
+              <Input type="number" name="age" value={age} onChange={(e) => setAge(e.target.value)} required />
             </div>
             <div>
               <Label>Education</Label>
-              <Input name="education" value={formData.education} onChange={handleChange} required />
+              <Input name="education" value={education} onChange={(e) => setEducation(e.target.value)} required />
             </div>
             <div>
               <Label>Profile Image</Label>
