@@ -80,7 +80,7 @@ export default function AddTaskForm({
     const formData = new FormData()
     formData.append("title", title);
     formData.append("detail", description);
-    formData.append("priority", priority);
+    // formData.append("priority", priority);
     formData.append("date", date);
     formData.append("user", id);
     console.log(formData)
