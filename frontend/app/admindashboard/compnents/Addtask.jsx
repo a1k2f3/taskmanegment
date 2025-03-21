@@ -25,6 +25,7 @@ export default function AddTaskForm({
   const [priority, setpriority] = useState()
   const [files, setFiles] = useState([])
   const [isDragging, setIsDragging] = useState(false)
+  const [id,setid] = useState()
   const fileInputRef = useRef(null)
 
   const handleFileChange = (e) => {
@@ -32,7 +33,15 @@ export default function AddTaskForm({
       setFiles(Array.from(e.target.files))
     }
   }
-
+  const handletitle = (e) => {
+    settitle(e.target.value)
+  }
+  const handledescription = (e) => {
+    setdescription(e.target.value)
+  }
+  const handledlepriority = (e) => {
+    setpriority(e.target.value)
+  }
   const handleDragOver = (e) => {
     e.preventDefault()
     e.stopPropagation()
@@ -72,16 +81,31 @@ export default function AddTaskForm({
 
     // Get form data
     const formData = new FormData()
-    try{
-      const response=fetch("http://localhost:3001/tasks")
-      }catch(error){
-      console.log(error)
-      }
-console.log(formData)
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("priority", priority);
+    formData.append("dueDate", date);
+    formData.append("dueDate", date);
+    console.log(formData)
     // Add files to form data
     files.forEach((file, index) => {
       formData.append(`file-${index}`, file)
     })
+
+    try{
+      const response = await fetch("http://localhost:3001/tasks",
+         { method: "POST", body: formData });
+         const data = await response.json();
+    if(response.ok){
+alert("task asgined successfuly")
+    }
+    else{
+alert(`Error: ${data.message || "task asgined failed "}`)
+    }
+
+      }catch(error){
+      console.log(error)
+      }
 
     // Simulate API call
     setTimeout(() => {
@@ -108,9 +132,9 @@ console.log(formData)
         <CardContent className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="title">Task Title</Label>
-            <Input id="title" placeholder="Enter task title" required />
+            <Input id="title" placeholder="Enter task title" value={title} onChange={handletitle} required  />
           </div>
-
+{console.log(title)}
           <div className="space-y-2">
             <Label htmlFor="description">Description</Label>
             <Textarea id="description" placeholder="Enter task description" className="min-h-[100px]" />
@@ -149,7 +173,10 @@ console.log(formData)
               </Select>
             </div>
           </div>
-
+          <div className="space-y-2">
+            <Label htmlFor="ID">Task Title</Label>
+            <Input id="ID" placeholder="Enter user Id" value={id} onChange={(e) => setid(e.target.value)} required  />
+          </div>
           {/* File Upload Section */}
           <div className="space-y-2">
             <Label htmlFor="attachments">Attachments</Label>
@@ -163,14 +190,8 @@ console.log(formData)
               onDrop={handleDrop}
               onClick={openFileDialog}
             >
-              <input
-                ref={fileInputRef}
-                type="file"
-                id="attachments"
-                multiple
-                className="hidden"
-                onChange={handleFileChange}
-              />
+              <input ref={fileInputRef} type="file" multiple className="hidden" onChange={handleFileChange} />
+
               <Paperclip className="mx-auto h-10 w-10 text-muted-foreground mb-2" />
               <p className="text-sm font-medium">Drag and drop files here or click to browse</p>
               <p className="text-xs text-muted-foreground mt-1">Supports images, documents, and other file types</p>
